@@ -6,5 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
 
-add_executable(app src/main.cpp)
+add_executable(app 
+src/main.cpp
+src/ImageProcessor.cpp)
 target_link_libraries(app PRIVATE ${OpenCV_LIBS})
