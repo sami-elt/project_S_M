@@ -1,3 +1,3 @@
-C:/Users/samio/projects/helloworld/build/CMakeFiles/app.dir
-C:/Users/samio/projects/helloworld/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/samio/projects/helloworld/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/samio/projects/project_S_M/build/CMakeFiles/app.dir
+C:/Users/samio/projects/project_S_M/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/samio/projects/project_S_M/build/CMakeFiles/ZERO_CHECK.dir

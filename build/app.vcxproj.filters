@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\samio\projects\helloworld\src\main.cpp">
+    <ClCompile Include="C:\Users\samio\projects\project_S_M\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\samio\projects\project_S_M\src\CameraCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\samio\projects\helloworld\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\samio\projects\project_S_M\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{812C307D-3D3D-32EA-95D4-AD7ECC08ED14}</UniqueIdentifier>
+      <UniqueIdentifier>{5B7C9FDF-F7F1-3735-90B1-78A07070E57C}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

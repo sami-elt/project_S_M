@@ -1,6 +1,6 @@
-^C:\USERS\SAMIO\PROJECTS\HELLOWORLD\BUILD\CMAKEFILES\589F93A1D25E84A4A0A7C9DBAF71A7DE\GENERATE.STAMP.RULE
+^C:\USERS\SAMIO\PROJECTS\PROJECT_S_M\BUILD\CMAKEFILES\BD0D8AC27A1FB8B0ECD76BB63C10467F\GENERATE.STAMP.RULE
 setlocal
-"C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/samio/projects/helloworld -BC:/Users/samio/projects/helloworld/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/samio/projects/helloworld/build/Helloworld.slnx
+"C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/samio/projects/project_S_M -BC:/Users/samio/projects/project_S_M/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/samio/projects/project_S_M/build/Helloworld.slnx
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

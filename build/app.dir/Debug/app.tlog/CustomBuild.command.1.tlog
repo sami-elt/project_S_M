@@ -1,6 +1,6 @@
-^C:\USERS\SAMIO\PROJECTS\HELLOWORLD\CMAKELISTS.TXT
+^C:\USERS\SAMIO\PROJECTS\PROJECT_S_M\CMAKELISTS.TXT
 setlocal
-"C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/samio/projects/helloworld -BC:/Users/samio/projects/helloworld/build --check-stamp-file C:/Users/samio/projects/helloworld/build/CMakeFiles/generate.stamp
+"C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/samio/projects/project_S_M -BC:/Users/samio/projects/project_S_M/build --check-stamp-file C:/Users/samio/projects/project_S_M/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

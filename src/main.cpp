@@ -1,6 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
-#include "ImageProcessor.hpp"
+#include "CameraCapture.hpp"
 
 int main()
 {
@@ -12,18 +12,24 @@ int main()
         return 1;
     }
 
-    ImageProcessor processor;
+    CameraCapture captureConfig;
+    captureConfig.configureCamera(camera, 640, 480);
+
+    cv::Mat emptyTestFrame;
+    std::cout << "test with empty frame--should be 0--: "
+              << captureConfig.isValidFrame(emptyTestFrame) << std::endl;
+
     cv::Mat frame;
 
     while (camera.read(frame))
-    {   // Gör bilden grå
-        cv::Mat gray = processor.toGrayscale(frame);
-        //  Gör gråbilden svart/vit
-        cv::Mat binary = processor.applyThreshold(gray, 120);
-
-        cv::imshow("Original", frame);
-        cv::imshow("Grayscale", gray);
-        cv::imshow("Binary", binary);
+    {   
+        if (!captureConfig.isValidFrame(frame))
+        {
+            std::cerr << "invalid frame" << std::endl;
+            break;
+        }
+        
+        cv::imshow("camera capture", frame);
 
         if (cv::waitKey(20) == 27)
         {

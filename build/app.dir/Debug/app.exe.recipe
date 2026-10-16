@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\samio\projects\helloworld\build\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>C:\Users\samio\projects\project_S_M\build\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>C:\Users\samio\projects\helloworld\build\Debug\app.exe</FullPath>
+      <FullPath>C:\Users\samio\projects\project_S_M\build\Debug\app.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
