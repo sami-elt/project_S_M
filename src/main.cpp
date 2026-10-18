@@ -13,7 +13,20 @@ int main()
     }
 
     CameraCapture captureConfig;
-    captureConfig.configureCamera(camera, 640, 480);
+    bool configurationOk = captureConfig.configureCamera(camera, 1234, 777);
+
+    if (!configurationOk)
+    {
+        std::cerr << "WARNING: Camera could not use the requested resolution."
+              << std::endl;
+    }
+    std::cout << "Requested resolution: 1234x777" << std::endl;
+
+    std::cout << "Actual resolution: "
+          << camera.get(cv::CAP_PROP_FRAME_WIDTH)
+          << "x"
+          << camera.get(cv::CAP_PROP_FRAME_HEIGHT)
+          << std::endl;
 
     cv::Mat emptyTestFrame;
     std::cout << "test with empty frame--should be 0--: "
