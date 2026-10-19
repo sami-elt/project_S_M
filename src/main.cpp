@@ -13,14 +13,31 @@ int main()
     }
 
     CameraCapture captureConfig;
-    bool configurationOk = captureConfig.configureCamera(camera, 1234, 777);
+    int requestedWidth = 1234;
+    int requestedHeight = 777;
+
+    int fallbackWidth = 640;
+    int fallbackHeight = 480;
+
+    bool configurationOk =
+        captureConfig.configureCamera(camera, requestedWidth, requestedHeight);
 
     if (!configurationOk)
     {
-        std::cerr << "WARNING: Camera could not use the requested resolution."
-              << std::endl;
+        std::cerr << requestedWidth << "x" << requestedHeight << " is not supported." << std::endl;
+        std::cout << "Trying fallback resolution " << fallbackWidth << "x" << fallbackHeight << "..." << std::endl;
+
+        configurationOk =
+            captureConfig.configureCamera(camera, fallbackWidth, fallbackHeight);
+
+         if (!configurationOk)
+        {
+            std::cerr << "Could not configure camera." << std::endl;
+            return 1;
+        }
+
+        std::cout << "Fallback successful: " << fallbackWidth << "x" << fallbackHeight << std::endl;
     }
-    std::cout << "Requested resolution: 1234x777" << std::endl;
 
     std::cout << "Actual resolution: "
           << camera.get(cv::CAP_PROP_FRAME_WIDTH)
