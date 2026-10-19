@@ -1,6 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "CameraCapture.hpp"
+#include "ImageProcessor.hpp"
 
 int main()
 {
@@ -13,11 +14,51 @@ int main()
     }
 
     CameraCapture captureConfig;
-    captureConfig.configureCamera(camera, 640, 480);
+    int requestedWidth = 1234;
+    int requestedHeight = 777;
+
+    int fallbackWidth = 640;
+    int fallbackHeight = 480;
+
+    bool configurationOk =
+        captureConfig.configureCamera(camera, requestedWidth, requestedHeight);
+
+    if (!configurationOk)
+    {
+        std::cerr << requestedWidth << "x" << requestedHeight << " is not supported." << std::endl;
+        std::cout << "Trying fallback resolution " << fallbackWidth << "x" << fallbackHeight << "..." << std::endl;
+
+        configurationOk =
+            captureConfig.configureCamera(camera, fallbackWidth, fallbackHeight);
+
+         if (!configurationOk)
+        {
+            std::cerr << "Could not configure camera." << std::endl;
+            return 1;
+        }
+
+        std::cout << "Fallback successful: " << fallbackWidth << "x" << fallbackHeight << std::endl;
+    }
+
+    std::cout << "Actual resolution: "
+          << camera.get(cv::CAP_PROP_FRAME_WIDTH)
+          << "x"
+          << camera.get(cv::CAP_PROP_FRAME_HEIGHT)
+          << std::endl;
+
+
 
     cv::Mat emptyTestFrame;
     std::cout << "test with empty frame--should be 0--: "
               << captureConfig.isValidFrame(emptyTestFrame) << std::endl;
+
+
+    //test för assignment2
+    ImageProcessor processor;
+    std::cout << "test för Imageprocessor" << std::endl;
+    cv::Mat result = processor.toGrayscale(emptyTestFrame);
+    std::cout << "lyckat test!" << std::endl;
+    
 
     cv::Mat frame;
 
@@ -28,8 +69,12 @@ int main()
             std::cerr << "invalid frame" << std::endl;
             break;
         }
+
+        cv::Mat processedFrame = processor.toGrayscale(frame);
         
-        cv::imshow("camera capture", frame);
+        cv::imshow("camera capture", processedFrame);
+
+        // cv::imshow("camera capture", frame);
 
         if (cv::waitKey(20) == 27)
         {
