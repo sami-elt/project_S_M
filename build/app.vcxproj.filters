@@ -7,6 +7,9 @@
     <ClCompile Include="C:\Users\samio\projects\project_S_M\src\CameraCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\samio\projects\project_S_M\src\ImageProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\samio\projects\project_S_M\CMakeLists.txt" />

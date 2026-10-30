@@ -2,6 +2,9 @@
 
 cv::Mat ImageProcessor::toGrayscale(const cv::Mat& image)
 {
+    //så koden inte kraschar om kameran missar en frame
+    if (image.empty()) return cv::Mat();
+    
     cv::Mat gray;
 
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
