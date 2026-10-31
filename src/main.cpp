@@ -1,18 +1,25 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "CameraCapture.hpp"
+#include "MarkerDetector.hpp"
+#include "ImageProcessor.hpp"
 
 int main()
 {
+    // Open the default camera
     cv::VideoCapture camera(0);
 
+    // Check if the camera opened correctly
     if (!camera.isOpened())
     {
         std::cerr << "Could not open camera." << std::endl;
         return 1;
     }
 
+    // Create the project components
     CameraCapture captureConfig;
+    ImageProcessor processor;
+    MarkerDetector detector;
     int requestedWidth = 1234;
     int requestedHeight = 777;
 
@@ -50,6 +57,7 @@ int main()
               << captureConfig.isValidFrame(emptyTestFrame) << std::endl;
 
     cv::Mat frame;
+    
 
     while (camera.read(frame))
     {   
@@ -57,10 +65,81 @@ int main()
         {
             std::cerr << "invalid frame" << std::endl;
             break;
-        }
-        
-        cv::imshow("camera capture", frame);
 
+        }
+
+        // Convert the camera frame to grayscale and binary
+        cv::Mat gray = processor.toGrayscale(frame);
+        cv::Mat binary = processor.applyThreshold(gray, 128);
+
+        // Find possible marker candidates
+        auto candidates = detector.detectCandidates(binary, frame);
+
+        std::cout << "Candidates: " << candidates.size() << std::endl;
+
+        for (const auto& candidate : candidates)
+        {
+            cv::polylines(frame, candidate, true, cv::Scalar(0, 255, 0), 2);
+
+            // Find the center position of the detected marker
+            cv::Rect box = cv::boundingRect(candidate);
+
+            cv::Point center(
+                box.x + box.width / 2,
+                box.y + box.height / 2
+            );
+
+          
+
+            // Check the horizontal marker position
+              std::string position;
+            if (center.x < frame.cols / 3)
+            {
+                position = "LEFT";
+            }
+            else if (center.x > (frame.cols * 2) / 3)
+            {
+                position = "RIGHT";
+            }
+            else
+            {
+                position = "CENTER";
+            }
+
+            // Check the vertical marker position
+            std :: string verticalPosition;
+            if (center.y < frame.rows / 3)
+            {
+                verticalPosition = "TOP";
+            }
+            else if (center.y > (frame.rows * 2) / 3)
+            {
+                verticalPosition = "BOTTOM";
+            }
+            else
+            {
+                verticalPosition = "CENTER";
+            }
+
+            cv::putText(frame, position, cv::Point(30,50), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0), 2);
+            cv::putText(frame, verticalPosition, cv::Point(30,100), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0), 2);
+            
+            cv::circle(
+                frame,
+                center,
+                20,
+                cv::Scalar(255, 0, 255),
+                -1
+            );
+        }
+
+        // check if there are no marker candidates
+        if (candidates.empty())
+        {
+            cv::putText(frame, "NO CANDIDATES", cv::Point(30,150), cv::FONT_HERSHEY_SIMPLEX, 1.0, cv::Scalar(0, 0, 255), 2);
+        }
+        cv::imshow("camera capture", frame);
+        cv::imshow("Binary", binary);
         if (cv::waitKey(20) == 27)
         {
             break;
