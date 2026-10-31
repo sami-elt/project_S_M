@@ -1,6 +1,8 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "CameraCapture.hpp"
+#include "MarkerDetector.hpp"
+#include "ImageProcessor.hpp"
 
 int main()
 {
@@ -13,6 +15,8 @@ int main()
     }
 
     CameraCapture captureConfig;
+    ImageProcessor processor;
+    MarkerDetector detector;
     int requestedWidth = 1234;
     int requestedHeight = 777;
 
@@ -50,6 +54,7 @@ int main()
               << captureConfig.isValidFrame(emptyTestFrame) << std::endl;
 
     cv::Mat frame;
+    
 
     while (camera.read(frame))
     {   
@@ -57,10 +62,37 @@ int main()
         {
             std::cerr << "invalid frame" << std::endl;
             break;
-        }
-        
-        cv::imshow("camera capture", frame);
 
+        }
+
+        
+        cv::Mat gray = processor.toGrayscale(frame);
+        cv::Mat binary = processor.applyThreshold(gray, 128);
+
+
+        auto candidates = detector.detectCandidates(binary, frame);
+        std::cout << "Candidates: " << candidates.size() << std::endl;
+
+        for (const auto& candidate : candidates)
+        {
+            cv::polylines(frame, candidate, true, cv::Scalar(0, 255, 0), 2);
+            cv::Rect box = cv::boundingRect(candidate);
+
+            cv::Point center(
+                box.x + box.width / 2,
+                box.y + box.height / 2
+            );
+
+            cv::circle(
+                frame,
+                center,
+                    5,
+                    cv::Scalar(255, 0, 0),
+                    -1
+            );
+        }
+        cv::imshow("camera capture", frame);
+        cv::imshow("Binary", binary);
         if (cv::waitKey(20) == 27)
         {
             break;
