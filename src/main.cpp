@@ -83,6 +83,21 @@ int main()
                 box.y + box.height / 2
             );
 
+            std::string position;
+
+            if (center.x < frame.cols / 3)
+            {
+                position = "LEFT";
+            }
+            else if (center.x > (frame.cols * 2) / 3)
+            {
+                position = "RIGHT";
+            }
+            else
+            {
+                position = "CENTER";
+            }
+            cv::putText(frame, position, cv::Point(30,50), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0), 2);
             cv::circle(
                 frame,
                 center,
