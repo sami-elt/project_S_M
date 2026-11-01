@@ -3,6 +3,7 @@
 #include "CameraCapture.hpp"
 #include "MarkerDetector.hpp"
 #include "ImageProcessor.hpp"
+#include "MarkerRecognizer.hpp"
 
 int main()
 {
@@ -20,6 +21,8 @@ int main()
     CameraCapture captureConfig;
     ImageProcessor processor;
     MarkerDetector detector;
+    MarkerRecognizer recognizer;
+
     int requestedWidth = 1234;
     int requestedHeight = 777;
 
@@ -61,6 +64,9 @@ int main()
 
     while (camera.read(frame))
     {   
+
+        if(frame.empty()) continue;
+
         if (!captureConfig.isValidFrame(frame))
         {
             std::cerr << "invalid frame" << std::endl;
@@ -75,10 +81,18 @@ int main()
         // Find possible marker candidates
         auto candidates = detector.detectCandidates(binary, frame);
 
+        //counter för markörer
+        int validMarkersCounter = 0;
+
         std::cout << "Candidates: " << candidates.size() << std::endl;
 
         for (const auto& candidate : candidates)
         {
+
+            if (recognizer.isTargetMarker(frame, candidate))
+            {
+                validMarkersCounter++;    
+
             cv::polylines(frame, candidate, true, cv::Scalar(0, 255, 0), 2);
 
             // Find the center position of the detected marker
@@ -132,6 +146,14 @@ int main()
                 -1
             );
         }
+        }
+
+        //om vi inte hittar någon riktig markör
+        if (validMarkersCounter == 0)
+        {
+            cv::putText(frame, "MARKER LOST", cv::Point(30,150), cv::FONT_HERSHEY_SIMPLEX, 1.0, cv::Scalar(0, 0, 255), 2);
+        }
+        
 
         // check if there are no marker candidates
         if (candidates.empty())
