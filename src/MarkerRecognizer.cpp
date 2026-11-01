@@ -1,4 +1,5 @@
 #include "MarkerRecognizer.hpp"
+#include <iostream>
 
 bool MarkerRecognizer::isTargetMarker(const cv::Mat& frame, const std::vector<cv::Point>& candidateContour)
 {
@@ -41,8 +42,9 @@ bool MarkerRecognizer::isTargetMarker(const cv::Mat& frame, const std::vector<cv
     
     // Om mer än 15% av mitten är ett mörkt mönster, godkänner vi den som vår markör!
     double patternRatio = (double)nonZeroPixels / (double)totalPixels;
+    std::cout << "Pattern ratio: " << patternRatio << std::endl;
+    return (patternRatio > 0.60);
     
-    return (patternRatio > 0.15);
     
 
 
