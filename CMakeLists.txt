@@ -12,8 +12,8 @@ add_executable(app
 src/main.cpp
 src/CameraCapture.cpp
 src/ImageProcessor.cpp
-src/Markerdetector.cpp
+src/MarkerDetector.cpp
 src/MarkerRecognizer.cpp
-
+src/UdpSender.cpp
 )
-target_link_libraries(app PRIVATE ${OpenCV_LIBS})
+target_link_libraries(app PRIVATE ${OpenCV_LIBS} ws2_32)
