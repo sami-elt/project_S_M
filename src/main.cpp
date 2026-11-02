@@ -25,8 +25,14 @@ int main()
     MarkerDetector detector;
     MarkerRecognizer recognizer;
     UdpSender sender;
-    int requestedWidth = 1234;
-    int requestedHeight = 777;
+
+    // Preferred camera resolution
+    int requestedWidth = 1280;
+    int requestedHeight = 720;
+
+    // Fallback resolution
+    int fallbackWidth = 640;
+    int fallbackHeight = 480;
 
     if (!sender.initialize("127.0.0.1", 5005))
     {
@@ -34,9 +40,6 @@ int main()
         return 1;
     }
     
-
-    int fallbackWidth = 640;
-    int fallbackHeight = 480;
 
     bool configurationOk =
         captureConfig.configureCamera(camera, requestedWidth, requestedHeight);
@@ -64,9 +67,6 @@ int main()
           << camera.get(cv::CAP_PROP_FRAME_HEIGHT)
           << std::endl;
 
-    cv::Mat emptyTestFrame;
-    std::cout << "test with empty frame--should be 0--: "
-              << captureConfig.isValidFrame(emptyTestFrame) << std::endl;
 
     cv::Mat frame;
     
@@ -75,7 +75,7 @@ int main()
     {   
         
        bool markerFound = false;
-
+        // Check that the captured frame is valid
         if (!captureConfig.isValidFrame(frame))
         {
             std::cerr << "invalid frame" << std::endl;
@@ -90,7 +90,7 @@ int main()
         // Find possible marker candidates
         auto candidates = detector.detectCandidates(binary, frame);
 
-        std::cout << "Candidates: " << candidates.size() << std::endl;
+        //std::cout << "Candidates: " << candidates.size() << std::endl;
 
         for (const auto& candidate : candidates)
         {
@@ -120,6 +120,7 @@ int main()
                 now - lastSendTime
             ).count();
 
+            // Send marker position every 50 milliseconds
             if (elapsed >= 50)
             {
                 sender.sendMessage(message);
@@ -147,7 +148,7 @@ int main()
             }
 
             // Check the vertical marker position
-            std :: string verticalPosition;
+            std::string verticalPosition;
             if (center.y < frame.rows / 3)
             {
                 verticalPosition = "TOP";
